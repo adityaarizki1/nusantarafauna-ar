@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>NusantaraFauna AR - Satwa Endemik Indonesia</title>
+  
+  <!-- A-Frame & AR.js Libraries (Versi Stabil yang Kompatibel dengan Webcam) -->
+  <script src="https://aframe.io/releases/1.3.0/aframe.min.js"></script>
+  <script src="https://raw.githack.com/AR-js-org/AR.js/3.4.5/aframe/build/aframe-ar.js"></script>
+  <script src="https://cdn.jsdelivr.net/gh/c-frame/aframe-extras@7.2.0/dist/aframe-extras.min.js"></script>
+
+  <!-- Application Stylesheet -->
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body style="margin: 0px; overflow: hidden;">
+
+  <!-- ==================== A-FRAME AR.JS SCENE ==================== -->
+  <a-scene 
+    embedded 
+    arjs="sourceType: webcam; debugUIEnabled: false;"
+    vr-mode-ui="enabled: false"
+    renderer="antialias: true; alpha: true;">
+    
+    <!-- Asset Management System -->
+    <a-assets timeout="10000">
+      <a-asset-item id="model-komodo" src="assets/models/komodo.glb"></a-asset-item>
+      <a-asset-item id="model-badak" src="assets/models/badak.glb"></a-asset-item>
+      <a-asset-item id="model-orangutan" src="assets/models/orangutan.glb"></a-asset-item>
+      <a-asset-item id="model-cenderawasih" src="assets/models/cenderawasih.glb"></a-asset-item>
+    </a-assets>
+
+    <!-- Ambient & Directional Lights -->
+    <a-entity light="type: ambient; color: #ffffff; intensity: 1.2"></a-entity>
+    <a-entity light="type: directional; color: #ffffff; intensity: 0.8; castShadow: false" position="1 4 2"></a-entity>
+
+    <!-- 1. MARKER: KOMODO (Pattern 'K') -->
+    <a-marker id="marker-komodo" type="pattern" url="assets/markers/komodo.patt" smooth="true" smoothCount="5">
+      <a-entity 
+        gltf-model="#model-komodo"
+        scale="0.015 0.015 0.015"
+        position="0 0 0"
+        rotation="0 45 0"
+        animation-mixer="clip: *; loop: repeat;">
+      </a-entity>
+    </a-marker>
+
+    <!-- 2. MARKER: BADAK JAWA (Pattern 'B') -->
+    <a-marker id="marker-badak" type="pattern" url="assets/markers/badak.patt" smooth="true" smoothCount="5">
+      <a-entity 
+        gltf-model="#model-badak"
+        scale="0.008 0.008 0.008"
+        position="0 0 0"
+        rotation="0 -30 0"
+        animation-mixer="clip: *; loop: repeat;">
+      </a-entity>
+    </a-marker>
+
+    <!-- 3. MARKER: ORANGUTAN (Pattern 'O') -->
+    <a-marker id="marker-orangutan" type="pattern" url="assets/markers/orangutan.patt" smooth="true" smoothCount="5">
+      <a-entity 
+        gltf-model="#model-orangutan"
+        scale="0.012 0.012 0.012"
+        position="0 0.2 0"
+        rotation="-10 45 0"
+        animation-mixer="clip: *; loop: repeat;">
+      </a-entity>
+    </a-marker>
+
+    <!-- 4. MARKER: BURUNG CENDERAWASIH (Pattern 'C') -->
+    <a-marker id="marker-cenderawasih" type="pattern" url="assets/markers/cenderawasih.patt" smooth="true" smoothCount="5">
+      <a-entity 
+        gltf-model="#model-cenderawasih"
+        scale="0.015 0.015 0.015"
+        position="0 0.3 0"
+        rotation="0 60 0"
+        animation-mixer="clip: *; loop: repeat;">
+      </a-entity>
+    </a-marker>
+
+    <!-- 5. UNIVERSAL TEST MARKER: HIRO (Preset Dosen/Layar Laptop) -->
+    <a-marker id="marker-hiro" preset="hiro" smooth="true" smoothCount="5">
+      <a-entity 
+        gltf-model="#model-komodo"
+        scale="0.015 0.015 0.015"
+        position="0 0 0"
+        rotation="0 45 0"
+        animation-mixer="clip: *; loop: repeat;">
+      </a-entity>
+    </a-marker>
+
+    <!-- Camera Entity -->
+    <a-entity camera></a-entity>
+  </a-scene>
+
+  <!-- ==================== USER INTERFACE OVERLAY ==================== -->
+  <div id="ui-overlay">
+    
+    <!-- Top Header & Status -->
+    <div class="top-section">
+      <header class="app-header">
+        <div class="brand-wrapper">
+          <div class="brand-logo">🦏</div>
+          <div class="brand-text">
+            <h1>NusantaraFauna AR</h1>
+            <p>Edukasi Satwa Endemik Indonesia</p>
+          </div>
+        </div>
+        <button id="btn-help" class="header-btn" title="Panduan Penggunaan">?</button>
+      </header>
+
+      <div class="status-container">
+        <div id="status-badge" class="status-badge">
+          <span class="status-dot"></span>
+          <span id="status-text">Arahkan kamera ke kartu satwa...</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Center Scan Visual Helper -->
+    <div id="scan-crosshair" class="scan-crosshair"></div>
+
+    <!-- Bottom Controls & Quick Info -->
+    <div class="bottom-controls">
+      
+      <!-- Quick Info Bar (Shown on detection) -->
+      <div id="satwa-quick-info" class="satwa-quick-info">
+        <div class="quick-details">
+          <h3 id="quick-name">Nama Satwa</h3>
+          <p id="quick-latin">Nama Ilmiah (Latin)</p>
+          <span id="quick-badge" class="quick-badge badge-critically-endangered">Status</span>
+        </div>
+      </div>
+
+      <!-- Action Floating Buttons -->
+      <div class="action-buttons">
+        <button id="btn-audio" class="ctrl-btn disabled" title="Putar Suara Satwa">
+          <span class="icon">🔊</span>
+        </button>
+        <button id="btn-info" class="ctrl-btn disabled" title="Detail Konservasi">
+          <span class="icon">ℹ️</span>
+        </button>
+        <button id="btn-capture" class="ctrl-btn" title="Ambil Foto">
+          <span class="icon">📸</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== DETAIL / CONSERVATION MODAL ==================== -->
+  <div id="modal-overlay" class="modal-overlay">
+    <div class="modal-content">
+      <button id="modal-close-btn" class="modal-close">&times;</button>
+      
+      <div class="modal-header">
+        <h2 id="modal-title">Nama Satwa</h2>
+        <div id="modal-latin" class="latin-name">Nama Latin</div>
+        <span id="modal-status" class="quick-badge">Status IUCN</span>
+      </div>
+
+      <div class="modal-section">
+        <h4>Habitat & Sebaran Nusantara</h4>
+        <p id="modal-habitat">Lokasi persebaran habitat asli di kepulauan Indonesia.</p>
+      </div>
+
+      <div class="modal-section">
+        <h4>Morfologi & Karakteristik</h4>
+        <p id="modal-desc">Deskripsi fisik dan kebiasaan satwa di alam bebas.</p>
+      </div>
+
+      <div class="modal-section">
+        <h4>Fakta Unik</h4>
+        <p id="modal-facts">Fakta unik dan keajaiban biologis satwa.</p>
+      </div>
+
+      <div class="conservation-card">
+        <h5>STATUS KONSERVASI (IUCN RED LIST)</h5>
+        <p>Satwa ini terancam punah akibat perburuan ilegal dan hilangnya hutan alam. Mari kita jaga habitat aslinya.</p>
+      </div>
+
+      <div class="patriot-card">
+        <h5>PESAN PATRIOTIK & PELESTARIAN ALAM</h5>
+        <p id="modal-patriot">Satwa endemik adalah mahkota kekayaan hayati tanah air Indonesia.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Application Logic -->
+  <script src="js/app.js"></script>
+</body>
+</html>

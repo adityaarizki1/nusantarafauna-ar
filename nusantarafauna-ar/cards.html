@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kartu Edukasi Flashcard AR - NusantaraFauna</title>
+  <style>
+    :root {
+      --primary: #1a365d;
+      --secondary: #2b6cb0;
+      --accent-red: #c53030;
+      --accent-green: #2f855a;
+      --accent-gold: #d69e2e;
+      --card-bg: #ffffff;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background: #f0f4f8;
+      color: #2d3748;
+      padding: 24px;
+    }
+
+    .toolbar {
+      max-width: 900px;
+      margin: 0 auto 24px;
+      background: white;
+      padding: 18px 24px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .toolbar h1 {
+      font-size: 20px;
+      color: var(--primary);
+    }
+
+    .toolbar p {
+      font-size: 13px;
+      color: #718096;
+    }
+
+    .print-btn {
+      background: var(--primary);
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      font-size: 14px;
+      font-weight: 600;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .print-btn:hover {
+      background: var(--secondary);
+    }
+
+    .cards-grid {
+      max-width: 900px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+      gap: 24px;
+    }
+
+    /* Flashcard Container (A6 Ratio format) */
+    .flashcard {
+      background: white;
+      border: 2px solid #e2e8f0;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.06);
+      page-break-inside: avoid;
+    }
+
+    .card-header {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: white;
+      padding: 12px 18px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .card-header h2 {
+      font-size: 16px;
+      font-weight: 700;
+    }
+
+    .card-badge {
+      font-size: 10px;
+      background: rgba(255,255,255,0.25);
+      padding: 4px 8px;
+      border-radius: 6px;
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+
+    .card-body {
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+
+    /* Marker Display Box */
+    .marker-frame {
+      width: 220px;
+      height: 220px;
+      background: #000;
+      padding: 18px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+      margin-bottom: 16px;
+    }
+
+    .marker-inner {
+      width: 100%;
+      height: 100%;
+      background: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 80px;
+      font-weight: 900;
+      color: #000;
+      user-select: none;
+    }
+
+    .card-details {
+      width: 100%;
+      text-align: left;
+      background: #f7fafc;
+      padding: 14px;
+      border-radius: 10px;
+      border: 1px solid #edf2f7;
+    }
+
+    .card-details .latin {
+      font-size: 13px;
+      color: #4a5568;
+      font-style: italic;
+      margin-bottom: 6px;
+    }
+
+    .card-details .row {
+      font-size: 12px;
+      margin-bottom: 4px;
+    }
+
+    .card-details .row strong {
+      color: var(--primary);
+    }
+
+    .badge-iucn-red {
+      color: var(--accent-red);
+      font-weight: 700;
+    }
+
+    .badge-iucn-orange {
+      color: #dd6b20;
+      font-weight: 700;
+    }
+
+    .card-footer {
+      width: 100%;
+      margin-top: 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 11px;
+      color: #718096;
+      border-top: 1px dashed #cbd5e0;
+      padding-top: 10px;
+    }
+
+    /* Print Stylesheet for Physical Paper */
+    @media print {
+      body {
+        background: white;
+        padding: 0;
+      }
+      .toolbar {
+        display: none;
+      }
+      .cards-grid {
+        display: block;
+      }
+      .flashcard {
+        border: 2px solid #000;
+        margin-bottom: 20px;
+        page-break-inside: avoid;
+      }
+      .marker-frame {
+        box-shadow: none;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Controls for Printing -->
+  <div class="toolbar">
+    <div>
+      <h1>Media Pendukung: Flashcards AR Satwa Endemik</h1>
+      <p>Cetak kartu ini di kertas tebal (A6 / kartu pos) atau arahkan kamera ponsel langsung ke layar untuk pengujian.</p>
+    </div>
+    <button class="print-btn" onclick="window.print()">🖨️ Cetak / Simpan PDF</button>
+  </div>
+
+  <!-- Cards Grid -->
+  <div class="cards-grid">
+    
+    <!-- 1. KARTU KOMODO -->
+    <div class="flashcard">
+      <div class="card-header">
+        <h2>1. Komodo</h2>
+        <span class="card-badge">Marker: K</span>
+      </div>
+      <div class="card-body">
+        <div class="marker-frame">
+          <div class="marker-inner">K</div>
+        </div>
+        <div class="card-details">
+          <div class="latin">Varanus komodoensis</div>
+          <div class="row"><strong>Habitat Asal:</strong> TN Komodo, Nusa Tenggara Timur</div>
+          <div class="row"><strong>Status Konservasi:</strong> <span class="badge-iucn-orange">Endangered (Terancam)</span></div>
+          <div class="row"><strong>Fakta Kunci:</strong> Kadal purba karnivora terbesar di dunia dengan panjang hingga 3 meter.</div>
+        </div>
+        <div class="card-footer">
+          <span>NusantaraFauna AR • Flashcard</span>
+          <span>TI UNTAG Surabaya</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2. KARTU BADAK JAWA -->
+    <div class="flashcard">
+      <div class="card-header">
+        <h2>2. Badak Jawa Bercula Satu</h2>
+        <span class="card-badge">Marker: B</span>
+      </div>
+      <div class="card-body">
+        <div class="marker-frame">
+          <div class="marker-inner">B</div>
+        </div>
+        <div class="card-details">
+          <div class="latin">Rhinoceros sondaicus</div>
+          <div class="row"><strong>Habitat Asal:</strong> TN Ujung Kulon, Banten</div>
+          <div class="row"><strong>Status Konservasi:</strong> <span class="badge-iucn-red">Critically Endangered (Kritis)</span></div>
+          <div class="row"><strong>Fakta Kunci:</strong> Hanya tersisa kurang dari 80 individu di habitat alaminya.</div>
+        </div>
+        <div class="card-footer">
+          <span>NusantaraFauna AR • Flashcard</span>
+          <span>TI UNTAG Surabaya</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3. KARTU ORANGUTAN -->
+    <div class="flashcard">
+      <div class="card-header">
+        <h2>3. Orangutan</h2>
+        <span class="card-badge">Marker: O</span>
+      </div>
+      <div class="card-body">
+        <div class="marker-frame">
+          <div class="marker-inner">O</div>
+        </div>
+        <div class="card-details">
+          <div class="latin">Pongo abelii / Pongo pygmaeus</div>
+          <div class="row"><strong>Habitat Asal:</strong> Hutan Hujan Sumatra & Kalimantan</div>
+          <div class="row"><strong>Status Konservasi:</strong> <span class="badge-iucn-red">Critically Endangered (Kritis)</span></div>
+          <div class="row"><strong>Fakta Kunci:</strong> Satu-satunya kera besar Asia dan berperan penting meregenerasi kanopi rimba.</div>
+        </div>
+        <div class="card-footer">
+          <span>NusantaraFauna AR • Flashcard</span>
+          <span>TI UNTAG Surabaya</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 4. KARTU BURUNG CENDERAWASIH -->
+    <div class="flashcard">
+      <div class="card-header">
+        <h2>4. Burung Cenderawasih</h2>
+        <span class="card-badge">Marker: C</span>
+      </div>
+      <div class="card-body">
+        <div class="marker-frame">
+          <div class="marker-inner">C</div>
+        </div>
+        <div class="card-details">
+          <div class="latin">Paradisaea apoda</div>
+          <div class="row"><strong>Habitat Asal:</strong> Hutan Pegunungan Papua & Maluku</div>
+          <div class="row"><strong>Status Konservasi:</strong> <span class="badge-iucn-orange">Dilindungi Penuh (Permen LHK)</span></div>
+          <div class="row"><strong>Fakta Kunci:</strong> Dijuluki 'Bird of Paradise' karena keindahan mahkota bulu pejantannya.</div>
+        </div>
+        <div class="card-footer">
+          <span>NusantaraFauna AR • Flashcard</span>
+          <span>TI UNTAG Surabaya</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 5. KARTU PENGUJIAN UNIVERSAL: HIRO -->
+    <div class="flashcard">
+      <div class="card-header" style="background: #4a5568;">
+        <h2>5. Marker Pengujian: HIRO</h2>
+        <span class="card-badge">Universal AR Preset</span>
+      </div>
+      <div class="card-body">
+        <div class="marker-frame">
+          <!-- Official Hiro Shape -->
+          <svg viewBox="0 0 512 512" width="100%" height="100%">
+            <rect width="512" height="512" fill="white"/>
+            <rect x="70" y="70" width="372" height="372" fill="none" stroke="black" stroke-width="60"/>
+            <text x="256" y="310" font-size="160" font-weight="900" text-anchor="middle" fill="black" font-family="Arial, sans-serif">HIRO</text>
+          </svg>
+        </div>
+        <div class="card-details">
+          <div class="latin">Preset Standar Pengujian Dosen & Laptop</div>
+          <div class="row"><strong>Fungsi:</strong> Gunakan kartu ini untuk menguji aplikasi langsung di layar monitor saat presentasi kelas.</div>
+        </div>
+        <div class="card-footer">
+          <span>NusantaraFauna AR • Hiro Test Marker</span>
+          <span>TI UNTAG Surabaya</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+</body>
+</html>
