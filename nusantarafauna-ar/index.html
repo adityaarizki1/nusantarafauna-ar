@@ -22,57 +22,57 @@
     vr-mode-ui="enabled: false"
     renderer="antialias: true; alpha: true;">
     
-    <!-- Asset Management System (Cache Busted v5) -->
+    <!-- Asset Management System (Cache Busted v6) -->
     <a-assets timeout="15000">
-      <a-asset-item id="model-komodo" src="assets/models/komodo.glb?v=5"></a-asset-item>
-      <a-asset-item id="model-badak" src="assets/models/badak.glb?v=5"></a-asset-item>
-      <a-asset-item id="model-orangutan" src="assets/models/orangutan.glb?v=5"></a-asset-item>
-      <a-asset-item id="model-cenderawasih" src="assets/models/cenderawasih.glb?v=5"></a-asset-item>
+      <a-asset-item id="model-komodo" src="assets/models/komodo.glb?v=6"></a-asset-item>
+      <a-asset-item id="model-badak" src="assets/models/badak.glb?v=6"></a-asset-item>
+      <a-asset-item id="model-orangutan" src="assets/models/orangutan.glb?v=6"></a-asset-item>
+      <a-asset-item id="model-cenderawasih" src="assets/models/cenderawasih.glb?v=6"></a-asset-item>
     </a-assets>
 
     <!-- Ambient & Directional Lights -->
     <a-entity light="type: ambient; color: #ffffff; intensity: 1.4"></a-entity>
     <a-entity light="type: directional; color: #ffffff; intensity: 0.8; castShadow: false" position="1 4 2"></a-entity>
 
-    <!-- 1. MARKER: KOMODO (Pattern 'K') - Skala Proporsional Pas -->
+    <!-- 1. MARKER: KOMODO (Pattern 'K') - Posisi Berdiri Tegak & Skala Pas -->
     <a-marker id="marker-komodo" type="pattern" url="assets/markers/komodo.patt" smooth="true" smoothCount="5">
       <a-entity 
         gltf-model="#model-komodo"
-        scale="0.014 0.014 0.014"
+        scale="2.5 2.5 2.5"
         position="0 0.1 0"
-        rotation="0 45 0">
+        rotation="-90 -65 0">
       </a-entity>
     </a-marker>
 
-    <!-- 2. MARKER: BADAK JAWA (Pattern 'B') - Rotasi Tegak Natural -->
+    <!-- 2. MARKER: BADAK JAWA (Pattern 'B') - Pose Tampak Samping (Side Profile) -->
     <a-marker id="marker-badak" type="pattern" url="assets/markers/badak.patt" smooth="true" smoothCount="5">
       <a-entity 
         gltf-model="#model-badak"
         scale="0.45 0.45 0.45"
         position="0 0.1 0"
-        rotation="0 -30 0"
+        rotation="-90 -75 0"
         animation-mixer="clip: *; loop: repeat;">
       </a-entity>
     </a-marker>
 
-    <!-- 3. MARKER: ORANGUTAN (Pattern 'O') - Rotasi Tegak Natural -->
+    <!-- 3. MARKER: ORANGUTAN (Pattern 'O') - Berdiri Tegak Lurus dari Depan -->
     <a-marker id="marker-orangutan" type="pattern" url="assets/markers/orangutan.patt" smooth="true" smoothCount="5">
       <a-entity 
         gltf-model="#model-orangutan"
         scale="0.009 0.009 0.009"
         position="0 0.1 0"
-        rotation="0 30 0"
+        rotation="-90 0 0"
         animation-mixer="clip: *; loop: repeat;">
       </a-entity>
     </a-marker>
 
-    <!-- 4. MARKER: BURUNG CENDERAWASIH (Pattern 'C') - WebP Fix & Format Standar -->
+    <!-- 4. MARKER: BURUNG CENDERAWASIH (Pattern 'C') - Pose Terbang/Hinggap Diagonal -->
     <a-marker id="marker-cenderawasih" type="pattern" url="assets/markers/cenderawasih.patt" smooth="true" smoothCount="5">
       <a-entity 
         gltf-model="#model-cenderawasih"
-        scale="1.8 1.8 1.8"
-        position="0 0.4 0"
-        rotation="0 40 0">
+        scale="1.6 1.6 1.6"
+        position="0 0.2 0"
+        rotation="-90 -45 0">
       </a-entity>
     </a-marker>
 
@@ -80,9 +80,9 @@
     <a-marker id="marker-hiro" preset="hiro" smooth="true" smoothCount="5">
       <a-entity 
         gltf-model="#model-komodo"
-        scale="0.014 0.014 0.014"
+        scale="2.5 2.5 2.5"
         position="0 0.1 0"
-        rotation="0 45 0">
+        rotation="-90 -65 0">
       </a-entity>
     </a-marker>
 
