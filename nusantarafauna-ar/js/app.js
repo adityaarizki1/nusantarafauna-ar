@@ -14,7 +14,7 @@ const SATWA_DATA = {
     description: "Kadal terbesar di dunia yang masih hidup di bumi, dengan panjang mencapai 3 meter dan bobot hingga 70-90 kg. Memiliki bisa mematikan dan indra penciuman tajam melalui lidahnya yang bercabang.",
     facts: "Hanya hidup di alam liar Indonesia dan tidak ditemukan di belahan bumi manapun lainnya. Fosil nenek moyang komodo telah ada sejak jutaan tahun lalu.",
     patriotMsg: "Komodo adalah ikon kebanggaan fauna nasional Indonesia. Melindungi habitat Pulau Komodo dari eksploitasi berlebihan adalah kewajiban kita sebagai bangsa berdaulat.",
-    audio: "assets/audio/komodo.wav"
+    audio: "assets/audio/komodo.mp3"
   },
   badak: {
     name: "Badak Jawa Bercula Satu",
@@ -25,7 +25,7 @@ const SATWA_DATA = {
     description: "Salah satu mamalia paling langka di dunia dengan populasi tersisa kurang dari 80 individu. Memiliki cula tunggal berukuran sekitar 20-25 cm dan kulit berlipat menyerupai baju baja.",
     facts: "Populasi badak Jawa sangat rentan terhadap kepunahan karena seluruh populasinya terkonsentrasi di satu lokasi tunggal yang rawan bencana alam tsunami letusan Gunung Anak Krakatau.",
     patriotMsg: "Menjaga Badak Jawa berarti menjaga benteng terakhir keanekaragaman hayati hutan hujan Pulau Jawa. Setiap individu badak yang bertahan adalah bukti martabat konservasi Indonesia.",
-    audio: "assets/audio/badak.wav"
+    audio: "assets/audio/badak.mp3"
   },
   orangutan: {
     name: "Orangutan Sumatra & Kalimantan",
@@ -36,7 +36,7 @@ const SATWA_DATA = {
     description: "Satu-satunya kera besar (great ape) yang hidup di benua Asia. Memiliki rambut kemerahan panjang, lengan yang sangat kuat untuk berayun di kanopi pohon, dan kecerdasan setara balita manusia.",
     facts: "Orangutan dijuluki 'Petani Hutan' (Gardeners of the Rainforest) karena mereka memakan buah dan menyebarkan biji-bijian ke seluruh penjuru hutan, menjaga regenerasi pohon rimba nusantara.",
     patriotMsg: "Hutan tropis Indonesia adalah paru-paru dunia sekaligus rumah bagi Orangutan. Mencegah deforestasi dan perburuan liar adalah wujud nyata bela negara untuk kelestarian bumi nusantara.",
-    audio: "assets/audio/orangutan.wav"
+    audio: "assets/audio/orangutan.mp3"
   },
   cenderawasih: {
     name: "Burung Cenderawasih",
@@ -47,7 +47,7 @@ const SATWA_DATA = {
     description: "Dijuluki 'Bird of Paradise' (Burung dari Surga) karena keindahan bulu ekor pejantannya yang berwarna-warni cemerlang dan tarian ritualnya yang memukau untuk memikat betina.",
     facts: "Dalam mitologi masyarakat adat Papua, burung ini dipercaya sebagai titisan suci dari surga yang tidak pernah menyentuh tanah dan hanya memakan embun surga.",
     patriotMsg: "Kemegahan Cenderawasih adalah simbol mahkota tanah Papua yang tak ternilai. Tolak segala bentuk cinderamata atau aksesoris dari bulu cenderawasih asli demi kelangsungan hidupnya di alam bebas.",
-    audio: "assets/audio/cenderawasih.wav"
+    audio: "assets/audio/cenderawasih.mp3"
   }
 };
 
