@@ -104,9 +104,7 @@ function setupMarkerListeners() {
     { id: "marker-komodo", key: "komodo" },
     { id: "marker-badak", key: "badak" },
     { id: "marker-orangutan", key: "orangutan" },
-    { id: "marker-cenderawasih", key: "cenderawasih" },
-    // Fallback universal hiro marker -> loads Komodo for quick screen testing
-    { id: "marker-hiro", key: "komodo" }
+    { id: "marker-cenderawasih", key: "cenderawasih" }
   ];
 
   markerIds.forEach(({ id, key }) => {
