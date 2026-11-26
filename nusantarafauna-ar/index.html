@@ -11,6 +11,27 @@
   <script src="https://raw.githack.com/AR-js-org/AR.js/3.4.5/aframe/build/aframe-ar.js"></script>
   <script src="https://cdn.jsdelivr.net/gh/c-frame/aframe-extras@7.2.0/dist/aframe-extras.min.js"></script>
 
+  <!-- Custom Component: Mengunci orientasi hewan agar selalu tegak menghadap kamera (anti terbalik) -->
+  <script>
+    AFRAME.registerComponent('lock-upright', {
+      init: function () {
+        this.camQuat = new THREE.Quaternion();
+        this.markerQuat = new THREE.Quaternion();
+        this.invMarkerQuat = new THREE.Quaternion();
+      },
+      tick: function () {
+        const marker = this.el.parentEl;
+        const camera = this.el.sceneEl && this.el.sceneEl.camera;
+        if (!marker || !camera || !marker.object3D.visible) return;
+
+        camera.getWorldQuaternion(this.camQuat);
+        marker.object3D.getWorldQuaternion(this.markerQuat);
+        this.invMarkerQuat.copy(this.markerQuat).invert();
+        this.el.object3D.quaternion.copy(this.invMarkerQuat).multiply(this.camQuat);
+      }
+    });
+  </script>
+
   <!-- Application Stylesheet -->
   <link rel="stylesheet" href="css/style.css">
 </head>
@@ -33,45 +54,45 @@
     <a-entity light="type: ambient; color: #ffffff; intensity: 1.4"></a-entity>
     <a-entity light="type: directional; color: #ffffff; intensity: 0.8; castShadow: false" position="1 4 2"></a-entity>
 
-    <!-- 1. MARKER: KOMODO (Pattern 'K') - Posisi Terpusat & Skala Pas -->
+    <!-- 1. MARKER: KOMODO (Pattern 'K') - Terkunci Tegak & Terpusat -->
     <a-marker id="marker-komodo" type="pattern" url="assets/markers/komodo.patt" smooth="true" smoothCount="5">
-      <a-entity position="0 0.15 0" rotation="-55 0 0">
-        <a-entity gltf-model="#model-komodo" scale="1.85 1.85 1.85" position="-0.20 0.19 -0.44" rotation="0 35 0">
+      <a-entity position="0 0 0" lock-upright>
+        <a-entity gltf-model="#model-komodo" scale="1.85 1.85 1.85" position="-0.20 0.19 -0.44" rotation="25 35 0">
         </a-entity>
       </a-entity>
     </a-marker>
 
-    <!-- 2. MARKER: BADAK JAWA (Pattern 'B') - Tegak & Pose Tampak Samping 3/4 -->
+    <!-- 2. MARKER: BADAK JAWA (Pattern 'B') - Terkunci Tegak & Pose Samping 3/4 -->
     <a-marker id="marker-badak" type="pattern" url="assets/markers/badak.patt" smooth="true" smoothCount="5">
-      <a-entity position="0 0.15 0" rotation="-75 0 0">
-        <a-entity gltf-model="#model-badak" scale="0.26 0.26 0.26" position="0 -0.23 -0.015" rotation="0 55 0"
+      <a-entity position="0 0 0" lock-upright>
+        <a-entity gltf-model="#model-badak" scale="0.26 0.26 0.26" position="0 -0.23 -0.015" rotation="10 55 0"
           animation-mixer="clip: *; loop: repeat;">
         </a-entity>
       </a-entity>
     </a-marker>
 
-    <!-- 3. MARKER: ORANGUTAN (Pattern 'O') - Berdiri Tegak & Terpusat -->
+    <!-- 3. MARKER: ORANGUTAN (Pattern 'O') - Terkunci Tegak & Terpusat -->
     <a-marker id="marker-orangutan" type="pattern" url="assets/markers/orangutan.patt" smooth="true" smoothCount="5">
-      <a-entity position="0 0.15 0" rotation="-80 0 0">
+      <a-entity position="0 0 0" lock-upright>
         <a-entity gltf-model="#model-orangutan" scale="0.0054 0.0054 0.0054" position="0.027 -0.39 -0.20"
-          rotation="0 0 0" animation-mixer="clip: *; loop: repeat;">
+          rotation="5 0 0" animation-mixer="clip: *; loop: repeat;">
         </a-entity>
       </a-entity>
     </a-marker>
 
-    <!-- 4. MARKER: BURUNG CENDERAWASIH (Pattern 'C') - Terpusat & Skala Jelas -->
+    <!-- 4. MARKER: BURUNG CENDERAWASIH (Pattern 'C') - Terkunci Tegak & Terpusat -->
     <a-marker id="marker-cenderawasih" type="pattern" url="assets/markers/cenderawasih.patt" smooth="true"
       smoothCount="5">
-      <a-entity position="0 0.2 0" rotation="-75 0 0">
-        <a-entity gltf-model="#model-cenderawasih" scale="2.4 2.4 2.4" position="0 0 0" rotation="0 25 0">
+      <a-entity position="0 0 0" lock-upright>
+        <a-entity gltf-model="#model-cenderawasih" scale="2.4 2.4 2.4" position="0 0 0" rotation="10 25 0">
         </a-entity>
       </a-entity>
     </a-marker>
 
     <!-- 5. UNIVERSAL TEST MARKER: HIRO (Preset Dosen/Layar Laptop) -->
     <a-marker id="marker-hiro" preset="hiro" smooth="true" smoothCount="5">
-      <a-entity position="0 0.15 0" rotation="-55 0 0">
-        <a-entity gltf-model="#model-komodo" scale="1.85 1.85 1.85" position="-0.20 0.19 -0.44" rotation="0 35 0">
+      <a-entity position="0 0 0" lock-upright>
+        <a-entity gltf-model="#model-komodo" scale="1.85 1.85 1.85" position="-0.20 0.19 -0.44" rotation="25 35 0">
         </a-entity>
       </a-entity>
     </a-marker>
